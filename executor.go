@@ -2,14 +2,18 @@ package executors
 
 type Executor struct {
 	jobs []*Job
+	runningCh chan bool
 }
 
-func NewExecutor() *Executor {
-	return new(Executor)
+func NewExecutor(n int) *Executor {
+	e := new(Executor)
+	e.runningCh = make(chan bool, n)
+	return e
 }
 
 func (e *Executor) New() *Job {
-	j := NewJob()
+	e.runningCh <- true
+	j := NewJob(e)
 	e.jobs = append(e.jobs, j)
 	return j
 }

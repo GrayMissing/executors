@@ -6,10 +6,10 @@ import (
 )
 
 func TestExecutor(t *testing.T) {
-	executor := NewExecutor()
+	executor := NewExecutor(5)
 	for i := 0; i < 10; i++ {
 		go func(j *Job) {
-			time.Sleep(1 * time.Second)
+			time.Sleep(500 * time.Millisecond)
 			t.Log("hello")
 			j.Finish()
 		}(executor.New())
