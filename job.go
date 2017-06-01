@@ -3,7 +3,7 @@ package executors
 type Job struct {
 	status   bool
 	statusCh chan bool
-	result   interface{}
+	result   []interface{}
 	executor *Executor
 }
 
@@ -29,6 +29,10 @@ func (j *Job) Join() {
 	<- j.statusCh
 }
 
-func (j *Job) SetResult(r interface{}) {
+func (j *Job) SetResult(r ...interface{}) {
 	j.result = r
+}
+
+func (j *Job) GetResult() []interface{} {
+	return j.result
 }
