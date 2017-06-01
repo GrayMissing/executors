@@ -1,7 +1,7 @@
 package executors
 
 type Executor struct {
-	jobs []*Job
+	jobs      []*Job
 	runningCh chan bool
 }
 

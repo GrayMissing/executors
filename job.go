@@ -16,9 +16,11 @@ func NewJob(e *Executor) *Job {
 }
 
 func (j *Job) Finish() {
-	j.status = true
-	j.statusCh <- true
-	<- j.executor.runningCh
+	if !j.status {
+		j.status = true
+		j.statusCh <- true
+		<-j.executor.runningCh
+	}
 }
 
 func (j *Job) Finished() bool {
@@ -26,7 +28,9 @@ func (j *Job) Finished() bool {
 }
 
 func (j *Job) Join() {
-	<- j.statusCh
+	if !j.status {
+		<-j.statusCh
+	}
 }
 
 func (j *Job) SetResult(r ...interface{}) {
